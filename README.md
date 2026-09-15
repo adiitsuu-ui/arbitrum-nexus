@@ -161,7 +161,7 @@ cargo install --locked cargo-stylus
 #### Run Unit Tests
 ```bash
 cd contracts
-cargo test --lib
+cargo test
 ```
 All vector arithmetic and cryptographic signature tests run natively on the host machine.
 

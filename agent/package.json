@@ -6,6 +6,7 @@
   "scripts": {
     "benchmark": "bun run src/benchmark.ts",
     "agent": "bun run src/agent.ts",
+    "test:live": "bun run src/test_live_contract.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

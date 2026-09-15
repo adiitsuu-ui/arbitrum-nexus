@@ -11,8 +11,13 @@ if [ -f "${PROJECT_DIR}/.env" ]; then
 fi
 
 RPC_URL="${ARBITRUM_SEPOLIA_RPC:-https://sepolia-rollup.arbitrum.io/rpc}"
-ADDRESS="${DEPLOYER_ADDRESS:-0xCb3F3B578dfc1C5d4d70ac450bAd38AC26931b96}"
+ADDRESS="${DEPLOYER_ADDRESS:-}"
 PRIVATE_KEY="${DEPLOYER_PRIVATE_KEY:-}"
+
+if [ -z "${ADDRESS}" ]; then
+    echo "❌ Error: DEPLOYER_ADDRESS must be set in environment or contracts/.env"
+    exit 1
+fi
 
 if [ -z "${PRIVATE_KEY}" ]; then
     echo "❌ Error: DEPLOYER_PRIVATE_KEY must be set in environment or contracts/.env"

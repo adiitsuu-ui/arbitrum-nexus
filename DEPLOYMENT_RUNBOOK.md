@@ -42,7 +42,7 @@ cargo build --target wasm32-unknown-unknown --release --no-default-features
 ### 1.2 Export Solidity Interface (Optional)
 To regenerate or inspect the auto-generated Solidity interface:
 ```bash
-cargo run --bin stylus-nexus-contracts --features export-abi > IStylusNexus.sol
+cargo run --bin export-abi --features export-abi > IStylusNexus.sol
 ```
 
 ### 1.3 Install `cargo-stylus` CLI
@@ -202,7 +202,7 @@ npx wrangler pages deploy dist --project-name arbitrum-nexus
 To scale the Nexus protocol into a dedicated private or high-throughput Layer 3:
 1. Inspect `orbit/orbit-config.json` for the chain specification (Chain ID: `918237`, Block Time: `250ms`, DA: `AnyTrust`).
 2. Follow `orbit/README.md` to launch a local Nitro node or deploy with the [Arbitrum Orbit Deployment Portal](https://orbit.arbitrum.io).
-3. Point `contracts/.env`, `agent/.env`, and `frontend/.env` to the Orbit RPC (`http://localhost:8449` or your hosted sequencer endpoint).
+3. Point `contracts/.env`, `agent/.env`, and `frontend/.env` to the Orbit RPC (`http://localhost:8547` or your hosted sequencer endpoint).
 
 ---
 
