@@ -89,7 +89,7 @@ mod tests {
         let v1 = vec![1000, 1000, 1000, 1000];
         let v2 = vec![990, 1010, 1005, 995];
         let score = compute_cosine_similarity_bps(&v1, &v2);
-        assert!(score >= 9990 && score <= 10000);
+        assert!((9990..=10000).contains(&score));
     }
 
     #[test]

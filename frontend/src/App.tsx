@@ -1028,8 +1028,48 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800/80 py-6 text-center text-xs text-slate-500">
-        <p>Arbitrum Stylus Agent Nexus • Powered by Arbitrum Nitro & Stylus MultiVM</p>
+      <footer className="border-t border-slate-800/80 py-6 px-4 text-xs text-slate-400">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-slate-500">Arbitrum Stylus Agent Nexus • Powered by Arbitrum Nitro & Stylus MultiVM</p>
+          <div className="flex items-center space-x-4 text-slate-400">
+            <a
+              href="https://github.com/adiitsuu-ui/arbitrum-nexus"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-cyan-400 transition-colors flex items-center space-x-1"
+            >
+              <span>GitHub</span>
+              <ExternalLink className="h-3 w-3" />
+            </a>
+            <a
+              href="https://github.com/adiitsuu-ui/arbitrum-nexus/blob/main/docs/GRANT_PROPOSAL.md"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-cyan-400 transition-colors flex items-center space-x-1"
+            >
+              <span>Grant Proposal</span>
+              <ExternalLink className="h-3 w-3" />
+            </a>
+            <a
+              href="https://github.com/adiitsuu-ui/arbitrum-nexus/blob/main/docs/LAUNCH_THREAD.md"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-cyan-400 transition-colors flex items-center space-x-1"
+            >
+              <span>Launch Kit</span>
+              <ExternalLink className="h-3 w-3" />
+            </a>
+            <a
+              href={`${ARBISCAN_EXPLORER_URL}/address/${contractAddress}`}
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-cyan-400 transition-colors flex items-center space-x-1"
+            >
+              <span>Arbiscan</span>
+              <ExternalLink className="h-3 w-3" />
+            </a>
+          </div>
+        </div>
       </footer>
     </div>
   );
