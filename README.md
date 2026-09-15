@@ -1,6 +1,7 @@
 # Arbitrum Stylus Agent Nexus (`arbitrum-nexus`)
 
 [![Arbitrum Stylus](https://img.shields.io/badge/Arbitrum-Stylus_WASM-12AAFF?logo=arbitrum&logoColor=white)](https://docs.arbitrum.io/stylus/stylus-gentle-introduction)
+[![GitHub Pages](https://img.shields.io/badge/Live_Demo-GitHub_Pages-2ea44f?logo=github&logoColor=white)](https://adiitsuu-ui.github.io/arbitrum-nexus/)
 [![Rust 2021](https://img.shields.io/badge/Rust-2021_no__std-DEA584?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![Viem](https://img.shields.io/badge/Viem-v2-black)](https://viem.sh)
 [![Bun](https://img.shields.io/badge/Runtime-Bun-fbf0df?logo=bun&logoColor=black)](https://bun.sh)
@@ -8,6 +9,11 @@
 [![License: MIT/Apache-2.0](https://img.shields.io/badge/License-MIT%20OR%20Apache--2.0-blue.svg)](LICENSE)
 
 An end-to-end, production-grade compute escrow and verification protocol running on **Arbitrum Stylus (WASM)**. The platform combines hardware-enclave biometric authentication (WebAuthn Passkeys), deterministic on-chain neural embedding verification (vector cosine similarity), autonomous event-driven execution agents, and a dedicated Arbitrum Orbit Layer 3 app-chain topology.
+
+- 🌐 **Live Command Center**: [https://adiitsuu-ui.github.io/arbitrum-nexus/](https://adiitsuu-ui.github.io/arbitrum-nexus/)
+- 📜 **Arbitrum Foundation Grant Proposal**: [`docs/GRANT_PROPOSAL.md`](docs/GRANT_PROPOSAL.md)
+- 🚀 **Technical Launch Thread**: [`docs/LAUNCH_THREAD.md`](docs/LAUNCH_THREAD.md)
+- 📍 **Arbitrum Sepolia Deployment**: [`0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9`](https://sepolia.arbiscan.io/address/0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9)
 
 ---
 
@@ -94,6 +100,9 @@ Running compute-intensive cryptographic and vector operations in Stylus WASM red
 
 ```
 arbitrum-nexus/
+├── .github/
+│   └── workflows/
+│       └── deploy-pages.yml # CI/CD for automated GitHub Pages frontend build & deploy
 ├── contracts/               # Arbitrum Stylus Smart Contracts (Rust WASM)
 │   ├── Cargo.toml           # stylus-sdk 0.10, p256, sha2, wasm32 cdylib config
 │   ├── .env.example         # RPC, deployer private key, and contract addresses
@@ -124,6 +133,9 @@ arbitrum-nexus/
 │   │   ├── App.tsx          # Main dashboard with live/demo toggle & WebAuthn
 │   │   └── index.css
 │   └── package.json
+├── docs/                    # Official documentation, grant proposals & launch kits
+│   ├── GRANT_PROPOSAL.md    # Official Arbitrum Foundation / Stylus Sprint application
+│   └── LAUNCH_THREAD.md     # Multi-platform technical launch copy & media kit
 ├── orbit/                   # Arbitrum Orbit Layer 3 App-Chain Blueprint
 │   ├── orbit-config.json    # Complete Orbit L3 deployment configuration
 │   ├── docker-compose.yml   # Turnkey Docker Compose orchestration for local Nitro node
