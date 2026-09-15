@@ -145,7 +145,7 @@ impl StylusNexus {
         self.task_bounties.insert(task_id, U256::ZERO);
 
         // Release bounty to authorized agent / solver
-        if let Err(_) = transfer_eth(self.vm(), recipient, bounty) {
+        if transfer_eth(self.vm(), recipient, bounty).is_err() {
             return Err("Payout transfer failed".as_bytes().to_vec());
         }
 
@@ -175,7 +175,7 @@ impl StylusNexus {
         self.task_statuses.insert(task_id, U256::from(3)); // 3 = Refunded
         self.task_bounties.insert(task_id, U256::ZERO);
 
-        if let Err(_) = transfer_eth(self.vm(), creator, bounty) {
+        if transfer_eth(self.vm(), creator, bounty).is_err() {
             return Err("Refund transfer failed".as_bytes().to_vec());
         }
 

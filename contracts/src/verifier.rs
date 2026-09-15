@@ -53,7 +53,7 @@ pub fn integer_sqrt(val: u128) -> u128 {
         return 0;
     }
     // Fast initial bit-shift guess
-    let shift = (128 - val.leading_zeros() + 1) / 2;
+    let shift = (128 - val.leading_zeros()).div_ceil(2);
     let mut x0 = 1u128 << shift;
     let mut x1 = (x0 + val / x0) / 2;
     while x1 < x0 {
