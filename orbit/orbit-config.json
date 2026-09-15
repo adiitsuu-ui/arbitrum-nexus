@@ -1,0 +1,54 @@
+{
+  "chainConfig": {
+    "chainId": 918237,
+    "homesteadBlock": 0,
+    "daoForkBlock": null,
+    "daoForkSupport": true,
+    "eip150Block": 0,
+    "eip150Hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "eip155Block": 0,
+    "eip158Block": 0,
+    "byzantiumBlock": 0,
+    "constantinopleBlock": 0,
+    "petersburgBlock": 0,
+    "istanbulBlock": 0,
+    "muirGlacierBlock": 0,
+    "berlinBlock": 0,
+    "londonBlock": 0,
+    "clique": {
+      "period": 0,
+      "epoch": 0
+    },
+    "arbitrum": {
+      "EnableStylus": true,
+      "EnableWasm": true,
+      "StylusVersion": 1,
+      "ChainType": "Layer3",
+      "ParentChainId": 421614,
+      "ParentChainName": "Arbitrum Sepolia",
+      "GenesisBlockNum": 0,
+      "SequencerInbox": "0x0000000000000000000000000000000000000000",
+      "InitialArbOSVersion": 30,
+      "BlockTimeMs": 250,
+      "MaxGasPerBlock": 32000000,
+      "MinL2BaseFeeGwei": 0.01,
+      "DataAvailabilityMode": "AnyTrust",
+      "CustomGasToken": {
+        "enabled": true,
+        "tokenSymbol": "NEXUS",
+        "decimals": 18,
+        "initialSupply": "100000000000000000000000000"
+      }
+    }
+  },
+  "sequencer": {
+    "host": "0.0.0.0",
+    "port": 8547,
+    "maxTxPoolSize": 10000,
+    "batchPostingIntervalSeconds": 3
+  },
+  "validator": {
+    "assertionPostingIntervalSeconds": 300,
+    "challengePeriodBlocks": 3600
+  }
+}

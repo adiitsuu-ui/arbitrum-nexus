@@ -1,0 +1,36 @@
+services:
+  nexus-orbit-sequencer:
+    image: offchainlabs/nitro-node:v3.2.1-d81324d
+    container_name: nexus-orbit-l3-sequencer
+    restart: unless-stopped
+    ports:
+      - "8547:8547" # RPC
+      - "8548:8548" # WS
+    volumes:
+      - ./orbit-config.json:/home/user/config/orbit-config.json:ro
+      - orbit-data:/home/user/.arbitrum
+    environment:
+      - PARENT_CHAIN_RPC=${PARENT_CHAIN_RPC:-https://sepolia-rollup.arbitrum.io/rpc}
+      - PARENT_CHAIN_ID=421614
+    command:
+      - --conf.file=/home/user/config/orbit-config.json
+      - --node.seq-coordinator.my-url=http://nexus-orbit-sequencer:8547
+      - --http.addr=0.0.0.0
+      - --http.port=8547
+      - --http.vhosts=*
+      - --http.corsdomain=*
+      - --http.api=net,web3,eth,arb,stylus
+      - --ws.addr=0.0.0.0
+      - --ws.port=8548
+      - --ws.origins=*
+      - --node.caching.archive
+      - --parent-chain.connection.url=${PARENT_CHAIN_RPC:-https://sepolia-rollup.arbitrum.io/rpc}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f -s -X POST -H 'Content-Type: application/json' --data '{\"jsonrpc\":\"2.0\",\"method\":\"eth_chainId\",\"params\":[],\"id\":1}' http://localhost:8547 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  orbit-data:
+    name: nexus_orbit_l3_data

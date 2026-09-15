@@ -1,0 +1,18 @@
+{
+  "name": "arbitrum-nexus-agent",
+  "version": "0.1.0",
+  "description": "Autonomous AI Agent Worker & Gas Efficiency Benchmark for Arbitrum Stylus",
+  "type": "module",
+  "scripts": {
+    "benchmark": "bun run src/benchmark.ts",
+    "agent": "bun run src/agent.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "viem": "^2.56.5"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.2",
+    "typescript": "^7.0.2"
+  }
+}

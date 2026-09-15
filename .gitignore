@@ -1,0 +1,63 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build Artifacts & Output
+dist/
+dist-ssr/
+target/
+*.wasm
+*.rlib
+*.d
+*.o
+
+# Environment Variables & Secrets (CRITICAL: Never commit real keys)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+!*.env.example
+!.env.example
+*.pem
+*.key
+*.p12
+*.keystore
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# OS & Editor
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Orbit L3 Local Chain Data
+chain-data/
+orbit/chain-data/
+nexus_orbit_l3_data/
+
+# Vercel & Hosting Artifacts
+.vercel
+.turbo/
+.cache/
