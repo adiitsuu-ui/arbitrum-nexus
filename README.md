@@ -16,6 +16,7 @@ An end-to-end, production-grade compute escrow and verification protocol running
 - 🌐 **Vercel Production Deployment**: [https://arbitrum-nexus-pied.vercel.app](https://arbitrum-nexus-pied.vercel.app)
 - 🌐 **Global Mirror (GitHub Pages)**: [https://adiitsuu-ui.github.io/arbitrum-nexus/](https://adiitsuu-ui.github.io/arbitrum-nexus/)
 - 📜 **Arbitrum Foundation Grant Proposal**: [`docs/GRANT_PROPOSAL.md`](docs/GRANT_PROPOSAL.md)
+- 🛡️ **Internal Security Audit & Verification**: [`docs/AUDIT_REPORT.md`](docs/AUDIT_REPORT.md)
 - 🚀 **Technical Launch Thread**: [`docs/LAUNCH_THREAD.md`](docs/LAUNCH_THREAD.md)
 - 📍 **Arbitrum Sepolia Deployment**: [`0x241950ddf85e90e286eaa46878eb72d1440b67f9`](https://sepolia.arbiscan.io/address/0x241950ddf85e90e286eaa46878eb72d1440b67f9)
 - 🏦 **Protocol Fee Treasury**: [`0x3FDbfB2caB39077a478ABA0cf66c720d1eAac4a0`](https://sepolia.arbiscan.io/address/0x3FDbfB2caB39077a478ABA0cf66c720d1eAac4a0) (1.5% autonomous fee)
