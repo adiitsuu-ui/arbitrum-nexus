@@ -10,6 +10,7 @@ import {
   Compass,
   Bot,
 } from "lucide-react";
+import type { Address } from "viem";
 import type { Task, SolverAgent } from "../types";
 import { ARBISCAN_EXPLORER_URL } from "../abi";
 
@@ -17,13 +18,17 @@ interface TaskMarketplaceProps {
   tasks: Task[];
   isLiveMode: boolean;
   isSubmittingTask: boolean;
+  settlingTaskId?: string | null;
+  walletAddress?: Address | null;
   onInspectVector: (task: Task) => void;
-  onSettleTask: (id: string) => void;
+  onSettleTask: (id: string) => Promise<void> | void;
   onCreateTask: (params: {
     description: string;
     bounty: string;
     minScore: string;
     dimensions: string;
+    assignedAgent?: Address;
+    agentName?: string;
   }) => Promise<void>;
 }
 
@@ -31,6 +36,8 @@ export function TaskMarketplace({
   tasks,
   isLiveMode,
   isSubmittingTask,
+  settlingTaskId,
+  walletAddress,
   onInspectVector,
   onSettleTask,
   onCreateTask,
@@ -40,6 +47,7 @@ export function TaskMarketplace({
   const [bounty, setBounty] = useState("0.05");
   const [minScore, setMinScore] = useState("90.0");
   const [dims, setDims] = useState("512");
+  const [assignedAgent, setAssignedAgent] = useState<string>("0x0000000000000000000000000000000000000000");
   const [filter, setFilter] = useState<"all" | "open" | "settled" | "onchain">("all");
 
   // Prompt Templates
@@ -121,7 +129,24 @@ export function TaskMarketplace({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!desc.trim()) return;
-    await onCreateTask({ description: desc, bounty, minScore, dimensions: dims });
+
+    const agentName =
+      assignedAgent === "0x0000000000000000000000000000000000000000"
+        ? "Open Agent Pool"
+        : assignedAgent === "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7"
+        ? "Sentinel-01"
+        : assignedAgent === "0x56a1b2c3d4e5f60718293a4b5c6d7e8f90123456"
+        ? "NeuroVector-Beta"
+        : "Self-Solver";
+
+    await onCreateTask({
+      description: desc,
+      bounty,
+      minScore,
+      dimensions: dims,
+      assignedAgent: assignedAgent as Address,
+      agentName,
+    });
     setDesc("");
   };
 
@@ -304,6 +329,35 @@ export function TaskMarketplace({
                 </select>
               </div>
 
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+                  Authorized Solver / Agent Target
+                </label>
+                <select
+                  value={assignedAgent}
+                  onChange={(e) => setAssignedAgent(e.target.value)}
+                  className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 font-mono text-xs text-slate-100 focus:border-cyan-400 focus:outline-none"
+                >
+                  <option value="0x0000000000000000000000000000000000000000">
+                    🌐 Autonomous Agent Pool (Open Bounty - Any Solver)
+                  </option>
+                  <option value="0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7">
+                    🤖 Sentinel-01 (DeFi & Arbitrage Risk)
+                  </option>
+                  <option value="0x56a1b2c3d4e5f60718293a4b5c6d7e8f90123456">
+                    🧠 NeuroVector-Beta (Governance NLP)
+                  </option>
+                  {walletAddress && (
+                    <option value={walletAddress}>
+                      👤 My Connected Wallet ({walletAddress.slice(0, 6)}...{walletAddress.slice(-4)})
+                    </option>
+                  )}
+                </select>
+                <p className="mt-1 text-[10px] text-slate-500">
+                  Open Bounty (0x00) allows any autonomous agent or connected wallet to settle.
+                </p>
+              </div>
+
               {/* Dynamic Gas Estimate Box */}
               <div className="rounded-xl border border-slate-800 bg-slate-950/70 p-3 font-mono text-[11px] text-slate-400 space-y-1">
                 <div className="flex justify-between">
@@ -468,10 +522,16 @@ export function TaskMarketplace({
 
                   {/* Actions Footer */}
                   <div className="flex flex-wrap items-center justify-between border-t border-slate-800/80 pt-3 gap-2">
-                    <div className="flex items-center space-x-3 text-xs text-slate-400">
+                    <div className="flex flex-wrap items-center space-x-3 text-xs text-slate-400">
                       <span>
                         Creator: <code className="text-slate-300">{task.creator.slice(0, 6)}...{task.creator.slice(-4)}</code>
                       </span>
+
+                      {task.agentName && (
+                        <span className="rounded bg-slate-900 border border-slate-800 px-1.5 py-0.5 text-[10px] text-cyan-300">
+                          Solver: {task.agentName}
+                        </span>
+                      )}
 
                       {task.txHash && (
                         <a
@@ -479,8 +539,22 @@ export function TaskMarketplace({
                           target="_blank"
                           rel="noreferrer"
                           className="flex items-center space-x-1 text-cyan-400 hover:underline"
+                          title="View Escrow Creation Tx on Arbiscan"
                         >
-                          <span>Arbiscan</span>
+                          <span>Created Tx</span>
+                          <ExternalLink className="h-3 w-3" />
+                        </a>
+                      )}
+
+                      {task.settleTxHash && (
+                        <a
+                          href={`${ARBISCAN_EXPLORER_URL}/tx/${task.settleTxHash}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center space-x-1 text-emerald-400 hover:underline font-bold"
+                          title="View Escrow Settlement Tx on Arbiscan"
+                        >
+                          <span>Settled Tx</span>
                           <ExternalLink className="h-3 w-3" />
                         </a>
                       )}
@@ -500,10 +574,20 @@ export function TaskMarketplace({
                       {task.status === "open" && (
                         <button
                           onClick={() => onSettleTask(task.id)}
-                          className="flex items-center space-x-1.5 rounded-lg bg-gradient-to-r from-arbitrum-blue to-cyan-400 px-3.5 py-1.5 text-xs font-bold text-slate-950 transition-all hover:opacity-95 shadow-md shadow-cyan-500/20 active:scale-95"
+                          disabled={settlingTaskId === task.id}
+                          className="flex items-center space-x-1.5 rounded-lg bg-gradient-to-r from-arbitrum-blue to-cyan-400 px-3.5 py-1.5 text-xs font-bold text-slate-950 transition-all hover:opacity-95 shadow-md shadow-cyan-500/20 active:scale-95 disabled:opacity-50"
                         >
-                          <Play className="h-3.5 w-3.5 fill-current" />
-                          <span>Dispatch Agent</span>
+                          {settlingTaskId === task.id ? (
+                            <>
+                              <RefreshCw className="h-3.5 w-3.5 animate-spin text-slate-950" />
+                              <span>Settling On-Chain...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Play className="h-3.5 w-3.5 fill-current" />
+                              <span>Dispatch Agent</span>
+                            </>
+                          )}
                         </button>
                       )}
                     </div>

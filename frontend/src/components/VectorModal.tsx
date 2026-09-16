@@ -8,6 +8,8 @@ import {
   Compass,
 } from "lucide-react";
 import type { Task } from "../types";
+import { verifyVectorSimilarityOnChain } from "../web3";
+import { DEFAULT_CONTRACT_ADDRESS, ARBISCAN_EXPLORER_URL } from "../abi";
 
 interface VectorModalProps {
   task: Task | null;
@@ -26,6 +28,30 @@ export function VectorModal({ task, onClose }: VectorModalProps) {
   ]);
   const [viewMode, setViewMode] = useState<"radar" | "spectrum">("radar");
   const [isOptimizing, setIsOptimizing] = useState(false);
+  const [isVerifyingOnChain, setIsVerifyingOnChain] = useState(false);
+  const [onChainResult, setOnChainResult] = useState<{
+    isPassing: boolean;
+    scoreBps: number;
+    blockNumber: bigint | null;
+    latencyMs: number;
+  } | null>(null);
+
+  const handleVerifyOnChain = async () => {
+    setIsVerifyingOnChain(true);
+    try {
+      // Scale coordinates to integer vectors for int32[] ABI
+      const vecA = refVector.map((v) => Math.round(v * 100));
+      const vecB = candVector.map((v) => Math.round(v * 100));
+      const minThresholdBps = Math.round(task.minScore * 100);
+
+      const res = await verifyVectorSimilarityOnChain(vecA, vecB, minThresholdBps);
+      setOnChainResult(res);
+    } catch (err) {
+      console.error("Failed on-chain verification:", err);
+    } finally {
+      setIsVerifyingOnChain(false);
+    }
+  };
 
   // Compute real cosine similarity, distance, and angle
   const computeMetrics = (vecA: number[], vecB: number[]) => {
@@ -393,7 +419,50 @@ export function VectorModal({ task, onClose }: VectorModalProps) {
                       : "Run Gradient Alignment (AI Refinement)"}
                   </span>
                 </button>
+
+                {/* Live Stylus WASM Verification Button */}
+                <button
+                  onClick={handleVerifyOnChain}
+                  disabled={isVerifyingOnChain}
+                  className="flex w-full items-center justify-center space-x-2 rounded-xl border border-emerald-500/40 bg-emerald-950/50 py-2.5 text-xs font-bold text-emerald-300 transition-all hover:bg-emerald-900/50 hover:border-emerald-400 disabled:opacity-50"
+                >
+                  <RefreshCw className={`h-4 w-4 text-emerald-400 ${isVerifyingOnChain ? "animate-spin" : ""}`} />
+                  <span>
+                    {isVerifyingOnChain
+                      ? "Querying Stylus Contract..."
+                      : "⚡ Verify on Arbitrum Sepolia Contract"}
+                  </span>
+                </button>
               </div>
+
+              {/* On-Chain Verification Proof Card */}
+              {onChainResult && (
+                <div className="rounded-xl border border-emerald-500/40 bg-emerald-950/40 p-3 font-mono text-[11px] space-y-1">
+                  <div className="flex items-center justify-between text-emerald-300 font-bold">
+                    <span>Stylus WASM Verification:</span>
+                    <span className="rounded bg-emerald-500/20 px-1.5 py-0.2 text-[10px]">
+                      {onChainResult.isPassing ? "PASSED ✅" : "FAILED ❌"}
+                    </span>
+                  </div>
+                  <div className="text-slate-300">
+                    On-chain Score: <strong className="text-cyan-300">{(onChainResult.scoreBps / 100).toFixed(2)}%</strong> ({onChainResult.scoreBps} bps)
+                  </div>
+                  <div className="text-slate-400 text-[10px] flex justify-between">
+                    <span>Block: #{onChainResult.blockNumber?.toString() || "latest"}</span>
+                    <span>RPC Latency: {onChainResult.latencyMs}ms</span>
+                  </div>
+                  <div className="text-[10px] pt-1 border-t border-emerald-500/20">
+                    <a
+                      href={`${ARBISCAN_EXPLORER_URL}/address/${DEFAULT_CONTRACT_ADDRESS}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-cyan-400 underline hover:text-cyan-300"
+                    >
+                      View Stylus Verifier Contract on Arbiscan &rarr;
+                    </a>
+                  </div>
+                </div>
+              )}
 
               {/* Monospace Formula Card */}
               <div className="rounded-xl border border-slate-800 bg-slate-950/90 p-3 font-mono text-[11px] text-slate-400 space-y-1.5">
@@ -411,7 +480,7 @@ export function VectorModal({ task, onClose }: VectorModalProps) {
                   <span className="text-slate-200">{metrics.normB}</span>
                 </div>
                 <div className="text-emerald-400 text-[10px] pt-1 border-t border-slate-800/80">
-                  Rust crate: `stylus_nexus::math::cosine_similarity()`
+                  Rust crate: `stylus_nexus::verifier::compute_cosine_similarity_bps()`
                 </div>
               </div>
             </div>

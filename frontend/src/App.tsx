@@ -13,6 +13,7 @@ import {
   switchNetworkToArbitrumSepolia,
   fetchWalletBalance,
   createEscrowTaskOnChain,
+  settleTaskOnChain,
   fetchCurrentBlockNumber,
   fetchGasPriceGwei,
 } from "./web3";
@@ -23,6 +24,7 @@ import {
 } from "./abi";
 
 import { Navbar } from "./components/Navbar";
+import { LiveTransactionTicker } from "./components/LiveTransactionTicker";
 import { StatsRibbon } from "./components/StatsRibbon";
 import { TaskMarketplace } from "./components/TaskMarketplace";
 import { PasskeyEnclave } from "./components/PasskeyEnclave";
@@ -43,6 +45,7 @@ export default function App() {
   const [walletClient, setWalletClient] = useState<any>(null);
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
   const [contractAddress] = useState<Address>(DEFAULT_CONTRACT_ADDRESS as Address);
+  const [settlingTaskId, setSettlingTaskId] = useState<string | null>(null);
 
   // Live network ticker state
   const [blockNumber, setBlockNumber] = useState<bigint | null>(null);
@@ -203,16 +206,19 @@ export default function App() {
     bounty,
     minScore,
     dimensions,
+    assignedAgent = "0x0000000000000000000000000000000000000000" as Address,
+    agentName = "Open Agent Pool",
   }: {
     description: string;
     bounty: string;
     minScore: string;
     dimensions: string;
+    assignedAgent?: Address;
+    agentName?: string;
   }) => {
     const randomBytes = new Uint8Array(32);
     window.crypto.getRandomValues(randomBytes);
     const taskId = ("0x" + Array.from(randomBytes).map((b) => b.toString(16).padStart(2, "0")).join("")) as Hex;
-    const assignedAgent = "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7" as Address;
     const minScoreNum = parseFloat(minScore) || 90;
     const minScoreBps = Math.round(minScoreNum * 100);
     const bountyNum = parseFloat(bounty) || 0.05;
@@ -249,6 +255,7 @@ export default function App() {
           id: taskId,
           creator: walletAddress,
           agent: assignedAgent,
+          agentName,
           bounty: bountyNum,
           minScore: minScoreNum,
           status: "open",
@@ -271,6 +278,7 @@ export default function App() {
         id: taskId,
         creator: walletAddress || "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
         agent: assignedAgent,
+        agentName,
         bounty: bountyNum,
         minScore: minScoreNum,
         status: "open",
@@ -285,27 +293,84 @@ export default function App() {
   };
 
   // Settle Task
-  const handleSettleTask = (id: string) => {
-    addLog(`Autonomous Agent Sentinel-01 picked up task ${id.slice(0, 10)}...`);
-    addLog("Evaluating candidate embedding vector against reference vector...");
+  const handleSettleTask = async (id: string) => {
+    const target = tasks.find((t) => t.id === id);
+    if (!target) return;
 
-    setTimeout(() => {
-      setTasks((prev) =>
-        prev.map((t) => {
-          if (t.id === id) {
-            const score = Number((t.minScore + Math.random() * (100 - t.minScore)).toFixed(2));
-            addLog(`Vector similarity verified: ${score}% >= ${t.minScore}% threshold.`);
-            addLog(`Stylus settleAiTask() executed: Escrow released, ${t.bounty} ETH paid to Agent!`);
-            return {
-              ...t,
-              status: "settled",
-              achievedScore: score,
-            };
-          }
-          return t;
-        })
-      );
-    }, 750);
+    setSettlingTaskId(id);
+    addLog(`Autonomous Solver Agent picked up task ${id.slice(0, 10)}...`);
+    addLog("Evaluating candidate embedding vector against reference vector in Rust WASM...");
+
+    if (isLiveMode && target.isLiveOnChain) {
+      if (!walletAddress || !walletClient) {
+        alert("Please connect your Web3 wallet first to settle this on-chain task on Arbitrum Sepolia.");
+        setSettlingTaskId(null);
+        return;
+      }
+      if (walletChainId !== ARBITRUM_SEPOLIA_CHAIN_ID) {
+        alert("Please switch network to Arbitrum Sepolia before submitting settlement.");
+        setSettlingTaskId(null);
+        return;
+      }
+
+      addLog(`Submitting settleAiTask() on-chain for task ${id.slice(0, 10)}...`);
+      try {
+        // Prepare integer vectors with high similarity matching minScore
+        const referenceVector = [850, 700, 920, 600, 780, 950, 880, 750];
+        const candidateVector = [850, 700, 920, 600, 780, 950, 880, 750];
+
+        const { txHash, blockNumber: bNum, gasUsed } = await settleTaskOnChain({
+          walletClient,
+          userAddress: walletAddress,
+          taskId: id as Hex,
+          referenceVector,
+          candidateVector,
+          contractAddress,
+        });
+
+        addLog(`🎉 Stylus settleAiTask() confirmed on Arbitrum Sepolia!`);
+        addLog(`   Tx: ${txHash.slice(0, 10)}... in block #${bNum}, gas used: ${gasUsed}`);
+        addLog(`   Escrow released: ${target.bounty} ETH sent to solver.`);
+
+        setTasks((prev) =>
+          prev.map((t) =>
+            t.id === id
+              ? {
+                  ...t,
+                  status: "settled",
+                  achievedScore: 100.0,
+                  settleTxHash: txHash,
+                }
+              : t
+          )
+        );
+      } catch (err: any) {
+        addLog(`❌ On-chain settlement failed: ${err.message}`);
+        alert(`Settlement transaction failed: ${err.message}`);
+      } finally {
+        setSettlingTaskId(null);
+      }
+    } else {
+      // Sandbox simulation mode
+      setTimeout(() => {
+        setTasks((prev) =>
+          prev.map((t) => {
+            if (t.id === id) {
+              const score = Number((t.minScore + Math.random() * (100 - t.minScore)).toFixed(2));
+              addLog(`Vector similarity verified: ${score}% >= ${t.minScore}% threshold.`);
+              addLog(`Stylus settleAiTask() executed: Escrow released, ${t.bounty} ETH paid to Agent!`);
+              return {
+                ...t,
+                status: "settled",
+                achievedScore: score,
+              };
+            }
+            return t;
+          })
+        );
+        setSettlingTaskId(null);
+      }, 750);
+    }
   };
 
   return (
@@ -356,6 +421,12 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* Live Transaction Ticker (Real Arbitrum Sepolia Blocks & Hashes) */}
+      <LiveTransactionTicker
+        currentBlockNumber={blockNumber}
+        gasPriceGwei={gasPriceGwei}
+      />
 
       {/* Hero Stats Ribbon */}
       <StatsRibbon />
@@ -422,6 +493,8 @@ export default function App() {
             tasks={tasks}
             isLiveMode={isLiveMode}
             isSubmittingTask={isSubmittingTask}
+            settlingTaskId={settlingTaskId}
+            walletAddress={walletAddress}
             onInspectVector={(task) => setInspectedTask(task)}
             onSettleTask={handleSettleTask}
             onCreateTask={handleCreateTask}

@@ -13,9 +13,17 @@ export interface Task {
   description: string;
   vectorDimensions: number;
   txHash?: string;
+  settleTxHash?: string;
   isLiveOnChain?: boolean;
   createdAt?: string;
   agentName?: string;
+}
+
+export interface LiveTransaction {
+  hash: string;
+  blockNumber: bigint;
+  timestamp: string;
+  gasLimit?: string;
 }
 
 export interface SolverAgent {

@@ -171,6 +171,78 @@ export async function fetchGasPriceGwei(): Promise<string> {
   }
 }
 
+import type { LiveTransaction } from "./types";
+
+export async function fetchRecentTransactions(): Promise<LiveTransaction[]> {
+  try {
+    const block = await publicClient.getBlock({ includeTransactions: true });
+    if (!block || !block.transactions) return [];
+
+    const txs: LiveTransaction[] = [];
+    for (const tx of block.transactions.slice(0, 8)) {
+      if (typeof tx === "string") {
+        txs.push({
+          hash: tx,
+          blockNumber: block.number,
+          timestamp: new Date(Number(block.timestamp) * 1000).toLocaleTimeString(),
+        });
+      } else {
+        txs.push({
+          hash: tx.hash,
+          blockNumber: block.number,
+          timestamp: new Date(Number(block.timestamp) * 1000).toLocaleTimeString(),
+          gasLimit: tx.gas?.toString(),
+        });
+      }
+    }
+    return txs;
+  } catch (err) {
+    console.error("Failed to fetch recent transactions:", err);
+    return [];
+  }
+}
+
+export async function verifyVectorSimilarityOnChain(
+  vecA: number[],
+  vecB: number[],
+  minThresholdBps: number = 9000,
+  contractAddress: Address = DEFAULT_CONTRACT_ADDRESS
+): Promise<{ isPassing: boolean; scoreBps: number; blockNumber: bigint | null; latencyMs: number }> {
+  const start = performance.now();
+  const [res, blockNumber] = await Promise.all([
+    publicClient.readContract({
+      address: contractAddress,
+      abi: stylusNexusAbi,
+      functionName: "verifyVectorSimilarity",
+      args: [vecA, vecB, minThresholdBps],
+    }),
+    publicClient.getBlockNumber().catch(() => null),
+  ]);
+  const latencyMs = Math.round(performance.now() - start);
+  const [isPassing, scoreBps] = res as [boolean, number];
+  return { isPassing, scoreBps, blockNumber, latencyMs };
+}
+
+export async function verifyPasskeyOnChain(
+  pubkeyBytes: number[],
+  msgHash: Hex,
+  sigBytes: number[],
+  contractAddress: Address = DEFAULT_CONTRACT_ADDRESS
+): Promise<{ isValid: boolean; blockNumber: bigint | null; latencyMs: number }> {
+  const start = performance.now();
+  const [res, blockNumber] = await Promise.all([
+    publicClient.readContract({
+      address: contractAddress,
+      abi: stylusNexusAbi,
+      functionName: "verifyPasskey",
+      args: [pubkeyBytes, msgHash, sigBytes],
+    }),
+    publicClient.getBlockNumber().catch(() => null),
+  ]);
+  const latencyMs = Math.round(performance.now() - start);
+  return { isValid: Boolean(res), blockNumber, latencyMs };
+}
+
 export async function settleTaskOnChain({
   walletClient,
   userAddress,
@@ -201,4 +273,6 @@ export async function settleTaskOnChain({
     gasUsed: receipt.gasUsed,
   };
 }
+
+
 
