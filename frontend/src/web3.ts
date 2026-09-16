@@ -150,3 +150,55 @@ export async function getTaskInfoFromChain(
     args: [taskId],
   });
 }
+
+export async function fetchCurrentBlockNumber(): Promise<bigint | null> {
+  try {
+    return await publicClient.getBlockNumber();
+  } catch (err) {
+    console.error("Failed to fetch block number:", err);
+    return null;
+  }
+}
+
+export async function fetchGasPriceGwei(): Promise<string> {
+  try {
+    const price = await publicClient.getGasPrice();
+    // 1 Gwei = 10^9 wei
+    const gwei = Number(price) / 1e9;
+    return gwei < 0.001 ? "<0.01" : gwei.toFixed(2);
+  } catch (err) {
+    return "0.02";
+  }
+}
+
+export async function settleTaskOnChain({
+  walletClient,
+  userAddress,
+  taskId,
+  referenceVector,
+  candidateVector,
+  contractAddress = DEFAULT_CONTRACT_ADDRESS,
+}: {
+  walletClient: any;
+  userAddress: Address;
+  taskId: Hex;
+  referenceVector: number[];
+  candidateVector: number[];
+  contractAddress?: Address;
+}): Promise<{ txHash: Hash; blockNumber: bigint; gasUsed: bigint }> {
+  const txHash = (await walletClient.writeContract({
+    account: userAddress,
+    address: contractAddress,
+    abi: stylusNexusAbi,
+    functionName: "settleAiTask",
+    args: [taskId, referenceVector, candidateVector],
+  })) as Hash;
+
+  const receipt = await publicClient.waitForTransactionReceipt({ hash: txHash });
+  return {
+    txHash,
+    blockNumber: receipt.blockNumber,
+    gasUsed: receipt.gasUsed,
+  };
+}
+
