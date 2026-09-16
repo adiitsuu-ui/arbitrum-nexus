@@ -61,3 +61,4 @@ nexus_orbit_l3_data/
 .vercel
 .turbo/
 .cache/
+.env*

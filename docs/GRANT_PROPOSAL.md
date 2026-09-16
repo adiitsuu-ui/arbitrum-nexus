@@ -6,7 +6,7 @@
 **Contact**: GitHub [@adiitsuu-ui](https://github.com/adiitsuu-ui)  
 **Repository**: [https://github.com/adiitsuu-ui/arbitrum-nexus](https://github.com/adiitsuu-ui/arbitrum-nexus)  
 **Live Production Application**: [https://stylusnexus.xyz](https://stylusnexus.xyz) (Mirror: [https://adiitsuu-ui.github.io/arbitrum-nexus/](https://adiitsuu-ui.github.io/arbitrum-nexus/))  
-**Active Testnet Deployment**: Arbitrum Sepolia (`421614`) — [`0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9`](https://sepolia.arbiscan.io/address/0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9)  
+**Active Testnet Deployment**: Arbitrum Sepolia (`421614`) — [`0x241950ddf85e90e286eaa46878eb72d1440b67f9`](https://sepolia.arbiscan.io/address/0x241950ddf85e90e286eaa46878eb72d1440b67f9)  
 **Total Funding Requested**: $65,000 USD (in ARB tokens)  
 **Target Completion Timeline**: 4.5 Months (4 Milestones)
 
@@ -119,7 +119,7 @@ Empirical benchmarks executed against real contract logic demonstrate the transf
 
 Arbitrum Stylus Agent Nexus is not a theoretical whitepaper; it is a fully functioning, end-to-end deployed protocol:
 - **Rust WASM Smart Contracts**: Fully developed and compiled under `stylus-sdk 0.10`. Successfully passed 8/8 native host test suites covering edge cases, vector orthogonalities, negative components, and DER passkey signatures.
-- **Live Testnet Deployment**: Deployed on Arbitrum Sepolia at address [`0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9`](https://sepolia.arbiscan.io/address/0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9) with verified Stylus activation bytecode (`0xeff002...`).
+- **Live Testnet Deployment**: Deployed on Arbitrum Sepolia at address [`0x241950ddf85e90e286eaa46878eb72d1440b67f9`](https://sepolia.arbiscan.io/address/0x241950ddf85e90e286eaa46878eb72d1440b67f9) with verified Stylus activation bytecode (`0xeff002...`).
 - **Autonomous Sentinel Agent**: Viem-based watcher and worker daemon tested against live RPC endpoints.
 - **Web Command Center**: Production-ready React/Vite dashboard featuring WebAuthn passkey generation, wallet connection, on-chain task creation, and live benchmark toggling, continuously deployed via GitHub Actions.
 - **Orbit L3 Orchestrator**: Containerized Nitro node configuration and launch automation scripts.
@@ -226,6 +226,6 @@ We request a total grant of **$65,000 USD** (payable in ARB), staged across four
 
 - **GitHub Source Code**: [https://github.com/adiitsuu-ui/arbitrum-nexus](https://github.com/adiitsuu-ui/arbitrum-nexus)
 - **Live Command Center Demo**: [https://adiitsuu-ui.github.io/arbitrum-nexus/](https://adiitsuu-ui.github.io/arbitrum-nexus/)
-- **Live Deployed Contract (Arbitrum Sepolia)**: [`0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9`](https://sepolia.arbiscan.io/address/0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9)
+- **Live Deployed Contract (Arbitrum Sepolia)**: [`0x241950ddf85e90e286eaa46878eb72d1440b67f9`](https://sepolia.arbiscan.io/address/0x241950ddf85e90e286eaa46878eb72d1440b67f9)
 - **Technical Deployment Runbook**: [DEPLOYMENT_RUNBOOK.md](../DEPLOYMENT_RUNBOOK.md)
 - **Orbit L3 Architecture Runbook**: [orbit/README.md](../orbit/README.md)

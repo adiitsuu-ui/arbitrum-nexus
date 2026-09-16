@@ -125,8 +125,8 @@ We included a turnkey **Arbitrum Orbit L3 Appchain** stack:
 ### Tweet 9 (On-Chain Verification & Proof)
 Don’t trust, verify. The smart contract is live and activated on Arbitrum Sepolia:
 
-📍 Contract: `0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9`  
-🔍 Explorer: https://sepolia.arbiscan.io/address/0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9  
+📍 Contract: `0x241950ddf85e90e286eaa46878eb72d1440b67f9`  
+🔍 Explorer: https://sepolia.arbiscan.io/address/0x241950ddf85e90e286eaa46878eb72d1440b67f9  
 ⚡️ Bytecode Stylus Header: `0xeff0020000016fd8b33470f8...`
 
 ---
@@ -186,7 +186,7 @@ Stylus compiles Rust to `wasm32-unknown-unknown`, executing under Arbitrum Nitro
 
 ### Shipped Deliverables:
 1. **Rust WASM Smart Contracts**: Deterministic integer math (Newton-Raphson integer sqrt, basis point scoring) + `p256` WebAuthn crypto.
-2. **Arbitrum Sepolia Deployment**: Live at `0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9`
+2. **Arbitrum Sepolia Deployment**: Live at `0x241950ddf85e90e286eaa46878eb72d1440b67f9`
 3. **Autonomous Sentinel Agent**: TypeScript/Viem worker that detects tasks, computes local embeddings, and settles on-chain.
 4. **Orbit L3 Orchestrator**: 250ms block time Nitro node blueprint with AnyTrust DA.
 5. **Web Command Center**: Interactive React dashboard with TouchID/FaceID passkey generation and live task escrow.
@@ -222,7 +222,7 @@ Arbitrum Stylus allows developers to write smart contracts in systems programmin
 4. **Orbit Layer 3 Appchain Blueprint (`orbit/`)**: Turnkey Nitro sequencer orchestration offering 250ms block times and AnyTrust Data Availability for high-volume micro-transactions.
 
 The smart contract is live and verified on the Arbitrum Sepolia testnet at:  
-`0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9`
+`0x241950ddf85e90e286eaa46878eb72d1440b67f9`
 
 Explore the open-source codebase, run the benchmarks locally, or test the live dashboard:
 - Repository: https://github.com/adiitsuu-ui/arbitrum-nexus
@@ -240,9 +240,9 @@ For media, researchers, and technical reviewers verifying project claims:
 - **Protocol Name**: Arbitrum Stylus Agent Nexus (`arbitrum-nexus`)
 - **License**: MIT / Apache 2.0 Dual License
 - **Network**: Arbitrum Sepolia Testnet (Chain ID: `421614`)
-- **Contract Address**: `0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9`
+- **Contract Address**: `0x241950ddf85e90e286eaa46878eb72d1440b67f9`
 - **Stylus Bytecode Magic Prefix**: `0xeff0020000016fd8b33470f8e181fe2751230dd9daa30b1ff234e3a9c80e761350ad577322424535f6d1199c28a709e5`
-- **Arbiscan URL**: [https://sepolia.arbiscan.io/address/0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9](https://sepolia.arbiscan.io/address/0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9)
+- **Arbiscan URL**: [https://sepolia.arbiscan.io/address/0x241950ddf85e90e286eaa46878eb72d1440b67f9](https://sepolia.arbiscan.io/address/0x241950ddf85e90e286eaa46878eb72d1440b67f9)
 - **GitHub Repository**: [https://github.com/adiitsuu-ui/arbitrum-nexus](https://github.com/adiitsuu-ui/arbitrum-nexus)
 - **Live Production URL**: [https://stylusnexus.xyz](https://stylusnexus.xyz)
 - **Global CDN Mirror**: [https://adiitsuu-ui.github.io/arbitrum-nexus/](https://adiitsuu-ui.github.io/arbitrum-nexus/)

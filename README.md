@@ -17,7 +17,8 @@ An end-to-end, production-grade compute escrow and verification protocol running
 - 🌐 **Global Mirror (GitHub Pages)**: [https://adiitsuu-ui.github.io/arbitrum-nexus/](https://adiitsuu-ui.github.io/arbitrum-nexus/)
 - 📜 **Arbitrum Foundation Grant Proposal**: [`docs/GRANT_PROPOSAL.md`](docs/GRANT_PROPOSAL.md)
 - 🚀 **Technical Launch Thread**: [`docs/LAUNCH_THREAD.md`](docs/LAUNCH_THREAD.md)
-- 📍 **Arbitrum Sepolia Deployment**: [`0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9`](https://sepolia.arbiscan.io/address/0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9)
+- 📍 **Arbitrum Sepolia Deployment**: [`0x241950ddf85e90e286eaa46878eb72d1440b67f9`](https://sepolia.arbiscan.io/address/0x241950ddf85e90e286eaa46878eb72d1440b67f9)
+- 🏦 **Protocol Fee Treasury**: [`0x3FDbfB2caB39077a478ABA0cf66c720d1eAac4a0`](https://sepolia.arbiscan.io/address/0x3FDbfB2caB39077a478ABA0cf66c720d1eAac4a0) (1.5% autonomous fee)
 
 ---
 
@@ -43,7 +44,7 @@ Arbitrum Stylus enables native WebAssembly execution alongside standard EVM stat
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
 │                           ARBITRUM STYLUS WASM RUNTIME (L2 / L3)                        │
 │                                                                                         │
-│   Contract: 0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9                                  │
+│   Contract: 0x241950ddf85e90e286eaa46878eb72d1440b67f9                                  │
 │                                                                                         │
 │   ┌────────────────────────────────┐            ┌───────────────────────────────────┐   │
 │   │   contracts/src/passkey.rs     │            │   contracts/src/verifier.rs       │   │
@@ -55,8 +56,9 @@ Arbitrum Stylus enables native WebAssembly execution alongside standard EVM stat
 │   ┌─────────────────────────────────────────────────────────────────────────────────┐   │
 │   │                         contracts/src/lib.rs (StylusNexus)                      │   │
 │   │   - Non-custodial Escrow & Threshold Validation                                 │   │
-│   │   - Automated Bounty Distribution via transfer_eth()                            │   │
-│   │   - Emits: TaskCreated, TaskCompleted, TaskRefunded                             │   │
+│   │   - Autonomous 1.5% Protocol Fee Routing to Treasury (0x3FDb...c4a0)            │   │
+│   │   - Automated Net Bounty Distribution via transfer_eth()                        │   │
+│   │   - Emits: TaskCreated, TaskCompleted, ProtocolFeeCollected, TaskRefunded       │   │
 │   └─────────────────────────────────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
                                            │
@@ -77,10 +79,12 @@ The Stylus smart contract is deployed, activated, and verified on Arbitrum Sepol
 | Parameter | Configuration | Block Explorer |
 | :--- | :--- | :--- |
 | **Network** | Arbitrum Sepolia (Chain ID: `421614`) | [Sepolia Rollup Explorer](https://sepolia.arbiscan.io) |
-| **Contract Address** | `0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9` | [View on Arbiscan](https://sepolia.arbiscan.io/address/0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9) |
+| **Contract Address** | `0x241950ddf85e90e286eaa46878eb72d1440b67f9` | [View on Arbiscan](https://sepolia.arbiscan.io/address/0x241950ddf85e90e286eaa46878eb72d1440b67f9) |
+| **Protocol Treasury** | `0x3FDbfB2caB39077a478ABA0cf66c720d1eAac4a0` | [View Treasury on Arbiscan](https://sepolia.arbiscan.io/address/0x3FDbfB2caB39077a478ABA0cf66c720d1eAac4a0) |
+| **Protocol Fee** | 1.5% (150 BPS, autonomous settlement) | Emits `ProtocolFeeCollected` |
 | **Compiler Target** | `wasm32-unknown-unknown` (`opt-level = "z"`) | Compiled from Rust |
 | **ABI Interface** | `contracts/IStylusNexus.sol` | EVM Interoperable |
-| **Status** | Active & Operational | On-Chain Verified |
+| **Status** | Active & Operational (Cached in ArbOS) | On-Chain Verified |
 
 ---
 
@@ -295,7 +299,7 @@ The project contains pre-configured `vercel.json` deployment manifests for singl
 1. Connect the repository to your [Vercel Dashboard](https://vercel.com).
 2. Set root directory to `frontend` (or deploy from repository root).
 3. Add the following environment variables:
-   - `VITE_STYLUS_CONTRACT_ADDRESS`: `0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9`
+   - `VITE_STYLUS_CONTRACT_ADDRESS`: `0x241950ddf85e90e286eaa46878eb72d1440b67f9`
    - `VITE_ARBITRUM_SEPOLIA_RPC`: `https://sepolia-rollup.arbitrum.io/rpc`
    - `VITE_CHAIN_ID`: `421614`
    - `VITE_ARBISCAN_EXPLORER_URL`: `https://sepolia.arbiscan.io`
@@ -307,8 +311,9 @@ The project contains pre-configured `vercel.json` deployment manifests for singl
 
 1. **Non-Custodial Escrow**: ETH bounties locked in `createTask()` can only be released when `settleAiTask()` verifies candidate embeddings against the designated cosine threshold or refunded by the original creator via `refundTask()`.
 2. **Reentrancy Protection**: State updates (`task_statuses` and `task_bounties` zeroing) precede external ETH transfers (`transfer_eth`).
-3. **Deterministic Math**: Cosine similarity calculations avoid floating-point operations in WASM, using fixed-point basis point arithmetic and integer square root via Newton-Raphson approximation.
-4. **Hardware Cryptography**: WebAuthn Passkey verification implements NIST P-256 (secp256r1) via the audited `p256` Rust crate, executing prehash ECDSA verification directly inside Stylus.
+3. **Autonomous Protocol Fee (1.5%)**: Contract autonomously calculates a 1.5% fee on settled bounties, routing it atomically to the protocol treasury (`0x3FDbfB2caB39077a478ABA0cf66c720d1eAac4a0`) while forwarding the net 98.5% payout to the solver agent, emitting `ProtocolFeeCollected`.
+4. **Deterministic Math**: Cosine similarity calculations avoid floating-point operations in WASM, using fixed-point basis point arithmetic and integer square root via Newton-Raphson approximation.
+5. **Hardware Cryptography**: WebAuthn Passkey verification implements NIST P-256 (secp256r1) via the audited `p256` Rust crate, executing prehash ECDSA verification directly inside Stylus.
 
 ---
 

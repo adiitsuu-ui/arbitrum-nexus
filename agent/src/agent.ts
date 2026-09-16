@@ -29,10 +29,13 @@ import path from "path";
 
 // Auto-discover and parse local .env files
 function loadLocalEnv() {
+  const currentDir = typeof (import.meta as any).dirname !== "undefined"
+    ? (import.meta as any).dirname
+    : (import.meta as any).dir || process.cwd();
   const possiblePaths = [
     path.resolve(process.cwd(), ".env"),
     path.resolve(process.cwd(), "agent/.env"),
-    path.resolve(import.meta.dir, "../.env"),
+    path.resolve(currentDir, "../.env"),
   ];
   for (const envPath of possiblePaths) {
     if (fs.existsSync(envPath)) {
@@ -57,7 +60,7 @@ loadLocalEnv();
 // Environment Configuration with sensible defaults
 const RPC_URL = process.env.ARBITRUM_RPC_URL || "https://sepolia-rollup.arbitrum.io/rpc";
 const CONTRACT_ADDRESS = (process.env.STYLUS_CONTRACT_ADDRESS ||
-  "0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9") as Address;
+  "0x241950ddf85e90e286eaa46878eb72d1440b67f9") as Address;
 const RAW_PRIVATE_KEY = process.env.AGENT_PRIVATE_KEY?.trim();
 const POLL_INTERVAL_MS = parseInt(process.env.POLL_INTERVAL_MS || "5000", 10);
 

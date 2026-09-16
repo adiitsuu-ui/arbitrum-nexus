@@ -374,6 +374,41 @@ export function TaskMarketplace({
                 </div>
               </div>
 
+              {/* Protocol Fee Breakdown */}
+              <div className="rounded-xl border border-cyan-500/20 bg-cyan-950/20 p-3 font-mono text-[11px] text-slate-300 space-y-1.5">
+                <div className="flex justify-between items-center text-slate-400">
+                  <span className="flex items-center gap-1">
+                    <Coins className="h-3 w-3 text-cyan-400" />
+                    <span>Gross Escrow Bounty:</span>
+                  </span>
+                  <strong className="text-slate-200">{bounty || "0"} ETH</strong>
+                </div>
+                <div className="flex justify-between items-center text-slate-400">
+                  <span>Protocol Fee (1.5%):</span>
+                  <span className="text-amber-400 font-medium">
+                    {(parseFloat(bounty || "0") * 0.015).toFixed(6)} ETH
+                  </span>
+                </div>
+                <div className="flex justify-between items-center text-slate-400">
+                  <span>Solver Net Payout (98.5%):</span>
+                  <span className="text-emerald-400 font-medium">
+                    {(parseFloat(bounty || "0") * 0.985).toFixed(6)} ETH
+                  </span>
+                </div>
+                <div className="flex justify-between items-center pt-1 border-t border-cyan-500/10 text-[10px] text-slate-500">
+                  <span>Treasury:</span>
+                  <a
+                    href={`${ARBISCAN_EXPLORER_URL}/address/0x3FDbfB2caB39077a478ABA0cf66c720d1eAac4a0`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-cyan-400 hover:underline flex items-center gap-1"
+                  >
+                    <span>0x3FDb...c4a0</span>
+                    <ExternalLink className="h-2.5 w-2.5" />
+                  </a>
+                </div>
+              </div>
+
               <button
                 type="submit"
                 disabled={isSubmittingTask}

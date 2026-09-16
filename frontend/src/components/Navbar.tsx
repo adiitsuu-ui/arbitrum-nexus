@@ -89,6 +89,9 @@ export function Navbar({
               <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-400">
                 ArbOS 32 • Stylus WASM Active
               </span>
+              <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium text-amber-300 font-mono">
+                Protocol Fee: 1.5%
+              </span>
             </div>
           </div>
 

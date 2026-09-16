@@ -2,8 +2,14 @@ import { parseAbi } from "viem";
 
 export const stylusNexusAbi = parseAbi([
   "event TaskCreated(bytes32 indexed taskId, address indexed creator, address indexed agent, uint256 bounty, uint256 minScore)",
-  "event TaskCompleted(bytes32 indexed taskId, address indexed agent, uint256 achievedScore, uint256 payout)",
+  "event TaskCompleted(bytes32 indexed taskId, address indexed agent, uint256 achievedScore, uint256 payout, uint256 fee)",
   "event TaskRefunded(bytes32 indexed taskId, address indexed creator, uint256 refundAmount)",
+  "event ProtocolFeeCollected(bytes32 indexed taskId, address indexed treasury, uint256 feeAmount)",
+  "function getEffectiveTreasury() external view returns (address)",
+  "function getEffectiveFeeBps() external view returns (uint32)",
+  "function getProtocolFeeInfo() external view returns (address, uint32)",
+  "function setTreasury(address new_treasury) external",
+  "function setFeeBps(uint32 new_fee_bps) external",
   "function verifyPasskey(uint8[] pubkey, bytes32 msg_hash, uint8[] signature) external view returns (bool)",
   "function verifyVectorSimilarity(int32[] vec_a, int32[] vec_b, uint32 min_threshold_bps) external view returns (bool, uint32)",
   "function createTask(bytes32 task_id, address agent, uint32 min_score_bps) external payable",

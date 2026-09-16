@@ -87,7 +87,7 @@ cargo stylus deploy \
   --endpoint https://sepolia-rollup.arbitrum.io/rpc \
   --private-key $DEPLOYER_PRIVATE_KEY
 ```
-Note the printed contract address (active deployment: `0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9`). Save this address for the Agent and Frontend configurations.
+Note the printed contract address (active deployment: `0x241950ddf85e90e286eaa46878eb72d1440b67f9`). Save this address for the Agent and Frontend configurations.
 
 ---
 
