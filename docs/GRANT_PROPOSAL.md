@@ -5,7 +5,7 @@
 **Author / Team**: `adiitsuu-ui`  
 **Contact**: GitHub [@adiitsuu-ui](https://github.com/adiitsuu-ui)  
 **Repository**: [https://github.com/adiitsuu-ui/arbitrum-nexus](https://github.com/adiitsuu-ui/arbitrum-nexus)  
-**Live Command Center**: [https://adiitsuu-ui.github.io/arbitrum-nexus/](https://adiitsuu-ui.github.io/arbitrum-nexus/)  
+**Live Production Application**: [https://stylusnexus.xyz](https://stylusnexus.xyz) (Mirror: [https://adiitsuu-ui.github.io/arbitrum-nexus/](https://adiitsuu-ui.github.io/arbitrum-nexus/))  
 **Active Testnet Deployment**: Arbitrum Sepolia (`421614`) — [`0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9`](https://sepolia.arbiscan.io/address/0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9)  
 **Total Funding Requested**: $65,000 USD (in ARB tokens)  
 **Target Completion Timeline**: 4.5 Months (4 Milestones)

@@ -1,7 +1,8 @@
 # Arbitrum Stylus Agent Nexus (`arbitrum-nexus`)
 
 [![Arbitrum Stylus](https://img.shields.io/badge/Arbitrum-Stylus_WASM-12AAFF?logo=arbitrum&logoColor=white)](https://docs.arbitrum.io/stylus/stylus-gentle-introduction)
-[![Vercel Deployment](https://img.shields.io/badge/Live_App-Vercel-000000?logo=vercel&logoColor=white)](https://arbitrum-nexus-pied.vercel.app)
+[![Live Domain](https://img.shields.io/badge/Production-stylusnexus.xyz-00E5FF?logo=vercel&logoColor=black)](https://stylusnexus.xyz)
+[![Vercel App](https://img.shields.io/badge/Vercel_App-arbitrum--nexus-000000?logo=vercel&logoColor=white)](https://arbitrum-nexus-pied.vercel.app)
 [![GitHub Pages](https://img.shields.io/badge/Mirror-GitHub_Pages-2ea44f?logo=github&logoColor=white)](https://adiitsuu-ui.github.io/arbitrum-nexus/)
 [![Rust 2021](https://img.shields.io/badge/Rust-2021_no__std-DEA584?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![Viem](https://img.shields.io/badge/Viem-v2-black)](https://viem.sh)
@@ -11,7 +12,8 @@
 
 An end-to-end, production-grade compute escrow and verification protocol running on **Arbitrum Stylus (WASM)**. The platform combines hardware-enclave biometric authentication (WebAuthn Passkeys), deterministic on-chain neural embedding verification (vector cosine similarity), autonomous event-driven execution agents, and a dedicated Arbitrum Orbit Layer 3 app-chain topology.
 
-- 🌐 **Live Web Application (Vercel)**: [https://arbitrum-nexus-pied.vercel.app](https://arbitrum-nexus-pied.vercel.app)
+- 🌐 **Official Live Domain**: [https://stylusnexus.xyz](https://stylusnexus.xyz)
+- 🌐 **Vercel Production Deployment**: [https://arbitrum-nexus-pied.vercel.app](https://arbitrum-nexus-pied.vercel.app)
 - 🌐 **Global Mirror (GitHub Pages)**: [https://adiitsuu-ui.github.io/arbitrum-nexus/](https://adiitsuu-ui.github.io/arbitrum-nexus/)
 - 📜 **Arbitrum Foundation Grant Proposal**: [`docs/GRANT_PROPOSAL.md`](docs/GRANT_PROPOSAL.md)
 - 🚀 **Technical Launch Thread**: [`docs/LAUNCH_THREAD.md`](docs/LAUNCH_THREAD.md)

@@ -136,7 +136,8 @@ Try it right in your browser!
 
 Register a hardware WebAuthn passkey with Touch ID / Face ID, explore interactive vector similarity comparisons, and monitor live on-chain tasks:
 
-🌐 Live Demo: https://adiitsuu-ui.github.io/arbitrum-nexus/
+🌐 Live App: https://stylusnexus.xyz
+(Global Mirror: https://adiitsuu-ui.github.io/arbitrum-nexus/)
 
 ---
 
@@ -191,7 +192,7 @@ Stylus compiles Rust to `wasm32-unknown-unknown`, executing under Arbitrum Nitro
 5. **Web Command Center**: Interactive React dashboard with TouchID/FaceID passkey generation and live task escrow.
 
 - GitHub: https://github.com/adiitsuu-ui/arbitrum-nexus
-- Live Demo: https://adiitsuu-ui.github.io/arbitrum-nexus/
+- Live App: https://stylusnexus.xyz (Mirror: https://adiitsuu-ui.github.io/arbitrum-nexus/)
 - Grant Application: https://github.com/adiitsuu-ui/arbitrum-nexus/blob/main/docs/GRANT_PROPOSAL.md
 
 ---
@@ -225,7 +226,7 @@ The smart contract is live and verified on the Arbitrum Sepolia testnet at:
 
 Explore the open-source codebase, run the benchmarks locally, or test the live dashboard:
 - Repository: https://github.com/adiitsuu-ui/arbitrum-nexus
-- Live Command Center: https://adiitsuu-ui.github.io/arbitrum-nexus/
+- Live Application: https://stylusnexus.xyz (Mirror: https://adiitsuu-ui.github.io/arbitrum-nexus/)
 - Grant Proposal: https://github.com/adiitsuu-ui/arbitrum-nexus/blob/main/docs/GRANT_PROPOSAL.md
 
 #Web3 #RustLang #WebAssembly #Arbitrum #Stylus #ArtificialIntelligence #Cryptography #SmartContracts #Ethereum
@@ -243,5 +244,6 @@ For media, researchers, and technical reviewers verifying project claims:
 - **Stylus Bytecode Magic Prefix**: `0xeff0020000016fd8b33470f8e181fe2751230dd9daa30b1ff234e3a9c80e761350ad577322424535f6d1199c28a709e5`
 - **Arbiscan URL**: [https://sepolia.arbiscan.io/address/0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9](https://sepolia.arbiscan.io/address/0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9)
 - **GitHub Repository**: [https://github.com/adiitsuu-ui/arbitrum-nexus](https://github.com/adiitsuu-ui/arbitrum-nexus)
-- **Live Command Center**: [https://adiitsuu-ui.github.io/arbitrum-nexus/](https://adiitsuu-ui.github.io/arbitrum-nexus/)
+- **Live Production URL**: [https://stylusnexus.xyz](https://stylusnexus.xyz)
+- **Global CDN Mirror**: [https://adiitsuu-ui.github.io/arbitrum-nexus/](https://adiitsuu-ui.github.io/arbitrum-nexus/)
 - **Orbit L3 Chain ID**: `918237` (Block time: `250ms`, Native Token: `$NEXUS`)
