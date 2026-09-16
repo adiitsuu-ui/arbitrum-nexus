@@ -1,7 +1,8 @@
 # Arbitrum Stylus Agent Nexus (`arbitrum-nexus`)
 
 [![Arbitrum Stylus](https://img.shields.io/badge/Arbitrum-Stylus_WASM-12AAFF?logo=arbitrum&logoColor=white)](https://docs.arbitrum.io/stylus/stylus-gentle-introduction)
-[![GitHub Pages](https://img.shields.io/badge/Live_Demo-GitHub_Pages-2ea44f?logo=github&logoColor=white)](https://adiitsuu-ui.github.io/arbitrum-nexus/)
+[![Vercel Deployment](https://img.shields.io/badge/Live_App-Vercel-000000?logo=vercel&logoColor=white)](https://arbitrum-nexus-pied.vercel.app)
+[![GitHub Pages](https://img.shields.io/badge/Mirror-GitHub_Pages-2ea44f?logo=github&logoColor=white)](https://adiitsuu-ui.github.io/arbitrum-nexus/)
 [![Rust 2021](https://img.shields.io/badge/Rust-2021_no__std-DEA584?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![Viem](https://img.shields.io/badge/Viem-v2-black)](https://viem.sh)
 [![Bun](https://img.shields.io/badge/Runtime-Bun-fbf0df?logo=bun&logoColor=black)](https://bun.sh)
@@ -10,7 +11,8 @@
 
 An end-to-end, production-grade compute escrow and verification protocol running on **Arbitrum Stylus (WASM)**. The platform combines hardware-enclave biometric authentication (WebAuthn Passkeys), deterministic on-chain neural embedding verification (vector cosine similarity), autonomous event-driven execution agents, and a dedicated Arbitrum Orbit Layer 3 app-chain topology.
 
-- 🌐 **Live Command Center**: [https://adiitsuu-ui.github.io/arbitrum-nexus/](https://adiitsuu-ui.github.io/arbitrum-nexus/)
+- 🌐 **Live Web Application (Vercel)**: [https://arbitrum-nexus-pied.vercel.app](https://arbitrum-nexus-pied.vercel.app)
+- 🌐 **Global Mirror (GitHub Pages)**: [https://adiitsuu-ui.github.io/arbitrum-nexus/](https://adiitsuu-ui.github.io/arbitrum-nexus/)
 - 📜 **Arbitrum Foundation Grant Proposal**: [`docs/GRANT_PROPOSAL.md`](docs/GRANT_PROPOSAL.md)
 - 🚀 **Technical Launch Thread**: [`docs/LAUNCH_THREAD.md`](docs/LAUNCH_THREAD.md)
 - 📍 **Arbitrum Sepolia Deployment**: [`0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9`](https://sepolia.arbiscan.io/address/0xEE48074c6Db89E15d7DE7C6eF538a6799872A1b9)
